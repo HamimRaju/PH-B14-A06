@@ -1,6 +1,6 @@
 import { workout } from "../types/workout";
 
-export const initialWorkouts: workout[] = [
+export const initialworkouts: workout[] = [
     {
         id: "1",
         title: "BARBELL BENCH PRESS",
