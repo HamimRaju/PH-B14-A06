@@ -3,6 +3,9 @@ export interface workout {
   title: string;
   category: string[];
   equipment: string;
+  difficulty?: string;
+  sets?: number;
+  reps?: string;
   duration: number;
   calories: number;
   rating: number;
