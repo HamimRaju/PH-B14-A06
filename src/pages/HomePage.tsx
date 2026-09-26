@@ -14,7 +14,7 @@ export default function HomePage({
     return (
         <div className="space-y-10">
             {/* Hero Section */}
-            <section className="bg-[#12161f] rounded-2xl p-8 md:p-12 border border-gray-800 relative overflow-hidden flex flex-col md:flex-row justify-between items-center">
+            <section className="bg-[#12161f] rounded-2xl p-8 md:p-12 border border-gray-800 relative overflow-hidden flex flex-col md:flex-row justify-between items-center gap-8">
                 <div className="max-w-xl space-y-4 z-10">
                     <span className="text-xs font-bold text-[#ccff00] tracking-widest uppercase">
                         Workout Library
@@ -39,12 +39,14 @@ export default function HomePage({
                     </button>
                 </div>
 
-                <div className="mt-8 md:mt-0 relative w-64 h-64 flex items-center justify-center">
-                    <div className="w-56 h-56 rounded-full bg-linear-to-tr from-[#ccff00]/10 to-transparent absolute"></div>
+                {/* Hero Illustration */}
+                <div className="flex-1 relative flex justify-center items-center w-full max-w-md">
+                    <div className="absolute w-72 h-72 bg-[#ccff00]/10 rounded-full blur-3xl -z-10 animate-pulse" />
                     <img
-                        src="https://placehold.co/400x400/000000/ccff00?text=Gym+Illustration"
-                        alt="Hero Illustration"
-                        className="object-contain w-full h-full relative z-10 filter drop-shadow-2xl"
+                        src="/banner.png"
+                        alt="Gym Illustration"
+                        className="w-full h-auto object-contain drop-shadow-[0_10px_25px_rgba(204,255,0,0.15)] relative z-10"
+                        loading="eager"
                     />
                 </div>
             </section>
@@ -103,7 +105,7 @@ export default function HomePage({
                                         </div>
                                     </div>
 
-                                    {/* Bottom Metadata Row */}
+                                    {/* Bottom Stats Row */}
                                     <div className="flex items-center justify-start gap-5 text-xs text-gray-400 pt-4 border-t border-gray-800/80">
                                         <span className="flex items-center gap-1.5 font-medium">
                                             <svg

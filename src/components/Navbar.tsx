@@ -1,68 +1,56 @@
+/* eslint-disable @next/next/no-img-element */
 import React from "react";
 import { pagetype } from "../types/workout";
 
-interface navbarprops {
-    activepage: pagetype;
-    setactivepage: (page: pagetype) => void;
-    plancount: number;
-    savedcount: number;
+export interface navbarprops {
+    currentpage: pagetype;
+    onnavigate: (page: pagetype) => void;
 }
 
-export default function Navbar({
-    activepage,
-    setactivepage,
-    plancount,
-    savedcount,
-}: navbarprops) {
+export default function Navbar({ currentpage, onnavigate }: navbarprops) {
     return (
-        <header className="bg-[#0b0e14] border-b border-gray-800 text-white px-6 py-4 sticky top-0 z-50">
-            <div className="max-w-7xl mx-auto flex justify-between items-center">
+        <header className="bg-[#12161f] border-b border-gray-800 sticky top-0 z-50">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+                {/* Brand Logo */}
                 <div
-                    onClick={() => setactivepage("home")}
-                    className="flex items-center gap-2 cursor-pointer text-xl font-extrabold tracking-wider"
+                    className="flex items-center gap-3 cursor-pointer select-none"
+                    onClick={() => onnavigate("home")}
                 >
-                    <span className="text-[#ccff00] text-2xl">🏋️</span>
-                    <span>FITLOG</span>
+                    <img
+                        src="/logo.png"
+                        alt="FitLog Logo"
+                        className="w-8 h-8 object-contain"
+                        loading="eager"
+                    />
+                    <span className="font-black text-xl tracking-wider text-white uppercase">
+                        FIT<span className="text-[#ccff00]">LOG</span>
+                    </span>
                 </div>
 
-                <nav className="flex items-center gap-6">
+                {/* Navigation Links */}
+                <nav className="flex items-center gap-2">
                     <button
-                        onClick={() => setactivepage("home")}
-                        className={`text-sm font-semibold transition-colors ${
-                            activepage === "home" || activepage === "details"
-                                ? "text-white"
-                                : "text-gray-400 hover:text-white"
+                        onClick={() => onnavigate("home")}
+                        className={`px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-all ${
+                            currentpage === "home"
+                                ? "bg-[#ccff00] text-black shadow-md"
+                                : "text-gray-400 hover:text-white hover:bg-gray-800/50"
                         }`}
                     >
                         Workouts
                     </button>
 
                     <button
-                        onClick={() => setactivepage("plan")}
-                        className={`text-sm font-semibold px-3 py-1.5 rounded-full transition-colors ${
-                            activepage === "plan"
-                                ? "bg-gray-800 text-[#ccff00]"
-                                : "text-gray-400 hover:text-white"
+                        onClick={() => onnavigate("plan")}
+                        className={`px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-all ${
+                            currentpage === "plan"
+                                ? "bg-[#ccff00] text-black shadow-md"
+                                : "text-gray-400 hover:text-white hover:bg-gray-800/50"
                         }`}
                     >
                         My Plan
                     </button>
                 </nav>
-
-                <div className="flex items-center gap-4 text-xs font-semibold">
-                    <span className="flex items-center gap-1.5 bg-gray-900 border border-gray-800 px-3 py-1 rounded-full text-gray-300">
-                        Plan{" "}
-                        <span className="bg-[#ccff00] text-black w-4 h-4 rounded-full flex items-center justify-center text-[10px] font-bold">
-                            {plancount}
-                        </span>
-                    </span>
-                    <span className="flex items-center gap-1.5 bg-gray-900 border border-gray-800 px-3 py-1 rounded-full text-gray-300">
-                        Saved{" "}
-                        <span className="bg-gray-700 text-white px-1.5 py-0.5 rounded text-[10px] font-bold">
-                            {savedcount}
-                        </span>
-                    </span>
-                </div>
             </div>
         </header>
     );

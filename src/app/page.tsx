@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import HomePage from "../pages/HomePage";
@@ -10,96 +10,82 @@ import { initialworkouts } from "../data/workout";
 import { workout, pagetype } from "../types/workout";
 
 export default function Home() {
-    const [activepage, setactivepage] = useState<pagetype>("home");
-    const [workouts] = useState<workout[]>(initialworkouts);
-    const [selectedworkout, setselectedworkout] = useState<workout | null>(
-        null,
-    );
+  const [currentpage, setCurrentpage] = useState<pagetype>('home');
+  const [selectedworkout, setSelectedworkout] = useState<workout | null>(null);
+  const [workouts] = useState<workout[]>(initialworkouts);
+  const [planitems, setPlanitems] = useState<workout[]>([]);
+  const [saveditems, setSaveditems] = useState<workout[]>([]);
 
-    const [planitems, setplanitems] = useState<workout[]>([]);
-    const [saveditems, setsaveditems] = useState<workout[]>([]);
+  const handleSelectWorkout = (item: workout) => {
+    setSelectedworkout(item);
+    setCurrentpage('details');
+  };
 
-    const handleselectworkout = (item: workout) => {
-        setselectedworkout(item);
-        setactivepage("details");
-    };
+  const handleAddToPlan = (item: workout) => {
+    if (!planitems.some(i => i.id === item.id)) {
+      setPlanitems([...planitems, { ...item, completed: false }]);
+    }
+  };
 
-    const handleaddtoplan = (item: workout) => {
-        if (planitems.length >= 5) {
-            alert("Plan limit reached! Maximum 5 exercises allowed for today.");
-            return;
-        }
-        if (!planitems.some((i) => i.id === item.id)) {
-            setplanitems([...planitems, { ...item, completed: false }]);
-        }
-    };
+  const handleToggleSave = (item: workout) => {
+    if (saveditems.some(i => i.id === item.id)) {
+      setSaveditems(saveditems.filter(i => i.id !== item.id));
+    } else {
+      setSaveditems([...saveditems, item]);
+    }
+  };
 
-    const handlesaveforlater = (item: workout) => {
-        if (!saveditems.some((i) => i.id === item.id)) {
-            setsaveditems([...saveditems, item]);
-        }
-    };
+  const handleRemoveFromPlan = (id: string, tab: 'today' | 'saved') => {
+    if (tab === 'today') {
+      setPlanitems(planitems.filter(i => i.id !== id));
+    } else {
+      setSaveditems(saveditems.filter(i => i.id !== id));
+    }
+  };
 
-    const handleremovefromplan = (id: string, tab: "today" | "saved") => {
-        if (tab === "today") {
-            setplanitems(planitems.filter((item) => item.id !== id));
-        } else {
-            setsaveditems(saveditems.filter((item) => item.id !== id));
-        }
-    };
+  const handleToggleComplete = (id: string) => {
+    setPlanitems(planitems.map(item => 
+      item.id === id ? { ...item, completed: !item.completed } : item
+    ));
+  };
 
-    const handletogglecomplete = (id: string) => {
-        setplanitems(
-            planitems.map((item) =>
-                item.id === id ? { ...item, completed: !item.completed } : item,
-            ),
-        );
-    };
+  return (
+    <div className="min-h-screen bg-[#0b0e14] text-gray-100 flex flex-col font-sans antialiased">
+      {/* Navbar component with correct currentpage prop */}
+      <Navbar currentpage={currentpage} onnavigate={setCurrentpage} />
 
-    return (
-        <div className="bg-[#0b0e14] text-gray-200 min-h-screen flex flex-col font-sans">
-            <Navbar
-                activepage={activepage}
-                setactivepage={setactivepage}
-                plancount={planitems.length}
-                savedcount={saveditems.length}
-            />
+      <main className="grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {currentpage === 'home' && (
+          <HomePage 
+            workouts={workouts} 
+            onselectworkout={handleSelectWorkout} 
+          />
+        )}
 
-            <main className="grow max-w-7xl w-full mx-auto p-6">
-                {activepage === "home" && (
-                    <HomePage
-                        workouts={workouts}
-                        onselectworkout={handleselectworkout}
-                    />
-                )}
+        {currentpage === 'details' && selectedworkout && (
+          <DetailsPage 
+            workout={selectedworkout}
+            planitems={planitems}
+            saveditems={saveditems}
+            onaddtoplan={handleAddToPlan}
+            ontogglesave={handleToggleSave}
+            onback={() => setCurrentpage('home')}
+          />
+        )}
 
-                {activepage === "details" && selectedworkout && (
-                    <DetailsPage
-                        workout={selectedworkout}
-                        onaddtoplan={handleaddtoplan}
-                        onsaveforlater={handlesaveforlater}
-                        isaddedtoplan={planitems.some(
-                            (i) => i.id === selectedworkout.id,
-                        )}
-                        issaved={saveditems.some(
-                            (i) => i.id === selectedworkout.id,
-                        )}
-                    />
-                )}
+        {currentpage === 'plan' && (
+          <MyPlanPage 
+            planitems={planitems}
+            saveditems={saveditems}
+            onremovefromplan={handleRemoveFromPlan}
+            ontogglecomplete={handleToggleComplete}
+            onselectworkout={handleSelectWorkout}
+            ongotoworkouts={() => setCurrentpage('home')}
+          />
+        )}
+      </main>
 
-                {activepage === "plan" && (
-                    <MyPlanPage
-                        planitems={planitems}
-                        saveditems={saveditems}
-                        onremovefromplan={handleremovefromplan}
-                        ontogglecomplete={handletogglecomplete}
-                        onselectworkout={handleselectworkout}
-                        ongotoworkouts={() => setactivepage("home")}
-                    />
-                )}
-            </main>
-
-            <Footer />
-        </div>
-    );
+      <Footer />
+    </div>
+  );
 }
