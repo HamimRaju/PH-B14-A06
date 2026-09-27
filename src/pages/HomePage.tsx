@@ -12,17 +12,17 @@ export default function HomePage({
     onselectworkout,
 }: homepageprops) {
     return (
-        <div className="space-y-10">
+        <div className="space-y-8 sm:space-y-10">
             {/* Hero Section */}
-            <section className="bg-[#12161f] rounded-2xl p-8 md:p-12 border border-gray-800 relative overflow-hidden flex flex-col md:flex-row justify-between items-center gap-8">
-                <div className="max-w-xl space-y-4 z-10">
-                    <span className="text-xs font-bold text-[#ccff00] tracking-widest uppercase">
+            <section className="bg-[#12161f] rounded-2xl p-5 sm:p-8 md:p-12 border border-gray-800 relative overflow-hidden flex flex-col md:flex-row justify-between items-center gap-6 md:gap-8">
+                <div className="max-w-xl space-y-3 sm:space-y-4 z-10 text-center md:text-left flex flex-col items-center md:items-start">
+                    <span className="text-[10px] sm:text-xs font-bold text-[#ccff00] tracking-widest uppercase">
                         Workout Library
                     </span>
-                    <h1 className="text-3xl md:text-5xl font-black text-white tracking-tight uppercase leading-tight">
+                    <h1 className="text-2xl sm:text-4xl md:text-5xl font-black text-white tracking-tight uppercase leading-tight sm:leading-tight">
                         Train with intent. Log every set.
                     </h1>
-                    <p className="text-gray-400 text-sm leading-relaxed">
+                    <p className="text-gray-400 text-xs sm:text-sm leading-relaxed">
                         FitLog is a dark, no-nonsense gym companion: pick a
                         lift, lock it into todays plan, and watch the weeks
                         work add up.
@@ -33,15 +33,15 @@ export default function HomePage({
                                 document.getElementById("library-section");
                             el?.scrollIntoView({ behavior: "smooth" });
                         }}
-                        className="bg-[#ccff00] text-black hover:bg-[#b8e600] font-bold text-xs uppercase px-6 py-3 rounded-md transition-all shadow-lg"
+                        className="bg-[#ccff00] text-black hover:bg-[#b8e600] font-bold text-xs uppercase px-5 sm:px-6 py-2.5 sm:py-3 rounded-md transition-all shadow-lg active:scale-95 cursor-pointer mt-1"
                     >
                         Browse Workouts
                     </button>
                 </div>
 
                 {/* Hero Illustration */}
-                <div className="flex-1 relative flex justify-center items-center w-full max-w-md">
-                    <div className="absolute w-72 h-72 bg-[#ccff00]/10 rounded-full blur-3xl -z-10 animate-pulse" />
+                <div className="flex-1 relative flex justify-center items-center w-full max-w-xs sm:max-w-md">
+                    <div className="absolute w-48 h-48 sm:w-72 sm:h-72 bg-[#ccff00]/10 rounded-full blur-3xl -z-10 animate-pulse" />
                     <img
                         src="/banner.png"
                         alt="Gym Illustration"
@@ -52,9 +52,9 @@ export default function HomePage({
             </section>
 
             {/* Library Cards Section */}
-            <section id="library-section" className="space-y-6">
+            <section id="library-section" className="space-y-5 sm:space-y-6">
                 <div>
-                    <h2 className="text-xl font-extrabold text-white uppercase tracking-wide">
+                    <h2 className="text-lg sm:text-xl font-extrabold text-white uppercase tracking-wide">
                         The Library
                     </h2>
                     <p className="text-xs text-gray-400 mt-1">
@@ -62,7 +62,7 @@ export default function HomePage({
                     </p>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                     {workouts && workouts.length > 0 ? (
                         workouts.map((item) => (
                             <div
@@ -71,7 +71,7 @@ export default function HomePage({
                                 className="bg-[#12161f] border border-gray-800/80 rounded-2xl overflow-hidden hover:border-gray-700 transition-all cursor-pointer flex flex-col group shadow-lg"
                             >
                                 {/* Image Section */}
-                                <div className="relative w-full h-52 bg-gray-900 overflow-hidden">
+                                <div className="relative w-full h-44 sm:h-52 bg-gray-900 overflow-hidden">
                                     <img
                                         src={item.image}
                                         alt={item.title}
@@ -80,14 +80,14 @@ export default function HomePage({
                                 </div>
 
                                 {/* Content Section */}
-                                <div className="p-6 flex flex-col grow justify-between space-y-5">
-                                    <div className="space-y-3">
+                                <div className="p-4 sm:p-6 flex flex-col grow justify-between space-y-4 sm:space-y-5">
+                                    <div className="space-y-2.5 sm:space-y-3">
                                         {/* Category Badges */}
-                                        <div className="flex gap-2 flex-wrap">
+                                        <div className="flex gap-1.5 sm:gap-2 flex-wrap">
                                             {item.category?.map((cat, i) => (
                                                 <span
                                                     key={i}
-                                                    className="bg-[#ccff00] text-black text-[11px] font-black px-3.5 py-1 rounded-full uppercase tracking-wider"
+                                                    className="bg-[#ccff00] text-black text-[10px] sm:text-[11px] font-black px-2.5 sm:px-3.5 py-0.5 sm:py-1 rounded-full uppercase tracking-wider"
                                                 >
                                                     {cat}
                                                 </span>
@@ -96,7 +96,7 @@ export default function HomePage({
 
                                         {/* Title & Equipment */}
                                         <div>
-                                            <h3 className="font-black text-white text-xl tracking-tight uppercase group-hover:text-[#ccff00] transition-colors leading-snug">
+                                            <h3 className="font-black text-white text-lg sm:text-xl tracking-tight uppercase group-hover:text-[#ccff00] transition-colors leading-snug">
                                                 {item.title}
                                             </h3>
                                             <p className="text-xs text-gray-400 font-medium mt-1">
@@ -106,10 +106,10 @@ export default function HomePage({
                                     </div>
 
                                     {/* Bottom Stats Row */}
-                                    <div className="flex items-center justify-start gap-5 text-xs text-gray-400 pt-4 border-t border-gray-800/80">
+                                    <div className="flex items-center justify-start gap-3 sm:gap-5 text-xs text-gray-400 pt-3 sm:pt-4 border-t border-gray-800/80 flex-wrap">
                                         <span className="flex items-center gap-1.5 font-medium">
                                             <svg
-                                                className="w-4 h-4 text-gray-400"
+                                                className="w-4 h-4 text-gray-400 shrink-0"
                                                 fill="none"
                                                 stroke="currentColor"
                                                 viewBox="0 0 24 24"
@@ -131,7 +131,7 @@ export default function HomePage({
 
                                         <span className="flex items-center gap-1.5 font-medium">
                                             <svg
-                                                className="w-4 h-4 text-gray-400"
+                                                className="w-4 h-4 text-gray-400 shrink-0"
                                                 fill="currentColor"
                                                 viewBox="0 0 20 20"
                                             >
@@ -146,7 +146,7 @@ export default function HomePage({
 
                                         <span className="flex items-center gap-1.5 font-medium">
                                             <svg
-                                                className="w-4 h-4 text-gray-400"
+                                                className="w-4 h-4 text-gray-400 shrink-0"
                                                 fill="none"
                                                 stroke="currentColor"
                                                 viewBox="0 0 24 24"

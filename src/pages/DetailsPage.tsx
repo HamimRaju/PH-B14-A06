@@ -28,14 +28,14 @@ export default function DetailsPage({
     const isSaved = saveditems?.some((item) => item?.id === workout?.id) ?? false;
 
     return (
-        <div className="py-6 max-w-7xl mx-auto">
+        <div className="py-4 sm:py-6 max-w-7xl mx-auto px-1 sm:px-0">
             {/* Back Button */}
             <button
                 onClick={onback}
-                className="mb-6 flex items-center gap-2 text-sm font-bold text-gray-400 hover:text-white transition-colors uppercase tracking-wider"
+                className="mb-4 sm:mb-6 flex items-center gap-2 text-xs sm:text-sm font-bold text-gray-400 hover:text-white transition-colors uppercase tracking-wider cursor-pointer"
             >
                 <svg
-                    className="w-5 h-5"
+                    className="w-4 h-4 sm:w-5 sm:h-5"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -50,10 +50,10 @@ export default function DetailsPage({
                 Back
             </button>
 
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 lg:gap-10 items-start">
                 {/* Left Column: Image Card */}
-                <div className="lg:col-span-6">
-                    <div className="w-full h-145 rounded-3xl overflow-hidden bg-[#12161f] border border-gray-800/60 shadow-2xl">
+                <div className="lg:col-span-6 w-full">
+                    <div className="w-full h-72 sm:h-96 lg:h-145 rounded-2xl sm:rounded-3xl overflow-hidden bg-[#12161f] border border-gray-800/60 shadow-2xl">
                         <img
                             src={workout?.image}
                             alt={workout?.title || "Workout"}
@@ -63,24 +63,24 @@ export default function DetailsPage({
                 </div>
 
                 {/* Right Column: Workout Details */}
-                <div className="lg:col-span-6 space-y-6">
+                <div className="lg:col-span-6 space-y-5 sm:space-y-6">
                     {/* Header & Description */}
-                    <div className="space-y-3">
-                        <h1 className="text-4xl font-black text-white tracking-tight uppercase leading-none">
+                    <div className="space-y-2.5 sm:space-y-3">
+                        <h1 className="text-2xl sm:text-3xl md:text-4xl font-black text-white tracking-tight uppercase leading-tight sm:leading-none">
                             {workout?.title}
                         </h1>
-                        <p className="text-gray-400 text-sm leading-relaxed font-normal">
+                        <p className="text-gray-400 text-xs sm:text-sm leading-relaxed font-normal">
                             {workout?.description ||
                                 "A compound exercise designed to build upper body strength and muscle."}
                         </p>
                     </div>
 
                     {/* Category Badges */}
-                    <div className="flex gap-2.5 flex-wrap">
+                    <div className="flex gap-2 sm:gap-2.5 flex-wrap">
                         {workout?.category?.map((cat, i) => (
                             <span
                                 key={i}
-                                className="bg-[#ccff00] text-black text-xs font-black px-4 py-1.5 rounded-full uppercase tracking-wider"
+                                className="bg-[#ccff00] text-black text-[10px] sm:text-xs font-black px-3 sm:px-4 py-1 sm:py-1.5 rounded-full uppercase tracking-wider"
                             >
                                 {cat}
                             </span>
@@ -88,72 +88,72 @@ export default function DetailsPage({
                     </div>
 
                     {/* Specifications Table */}
-                    <div className="bg-[#121620]/80 border border-gray-800/80 rounded-2xl overflow-hidden text-sm divide-y divide-gray-800/60">
-                        <div className="flex justify-between items-center px-5 py-3.5">
-                            <span className="text-gray-400 font-bold text-xs uppercase tracking-wider">
+                    <div className="bg-[#121620]/80 border border-gray-800/80 rounded-2xl overflow-hidden text-xs sm:text-sm divide-y divide-gray-800/60">
+                        <div className="flex justify-between items-center px-4 sm:px-5 py-3 sm:py-3.5">
+                            <span className="text-gray-400 font-bold text-[10px] sm:text-xs uppercase tracking-wider">
                                 EQUIPMENT
                             </span>
-                            <span className="text-white font-medium">
+                            <span className="text-white font-medium text-right">
                                 {workout?.equipment}
                             </span>
                         </div>
 
                         {workout?.difficulty && (
-                            <div className="flex justify-between items-center px-5 py-3.5">
-                                <span className="text-gray-400 font-bold text-xs uppercase tracking-wider">
+                            <div className="flex justify-between items-center px-4 sm:px-5 py-3 sm:py-3.5">
+                                <span className="text-gray-400 font-bold text-[10px] sm:text-xs uppercase tracking-wider">
                                     DIFFICULTY
                                 </span>
-                                <span className="text-white font-medium">
+                                <span className="text-white font-medium text-right">
                                     {workout.difficulty}
                                 </span>
                             </div>
                         )}
 
                         {workout?.sets && (
-                            <div className="flex justify-between items-center px-5 py-3.5">
-                                <span className="text-gray-400 font-bold text-xs uppercase tracking-wider">
+                            <div className="flex justify-between items-center px-4 sm:px-5 py-3 sm:py-3.5">
+                                <span className="text-gray-400 font-bold text-[10px] sm:text-xs uppercase tracking-wider">
                                     SETS
                                 </span>
-                                <span className="text-white font-medium">
+                                <span className="text-white font-medium text-right">
                                     {workout.sets}
                                 </span>
                             </div>
                         )}
 
                         {workout?.reps && (
-                            <div className="flex justify-between items-center px-5 py-3.5">
-                                <span className="text-gray-400 font-bold text-xs uppercase tracking-wider">
+                            <div className="flex justify-between items-center px-4 sm:px-5 py-3 sm:py-3.5">
+                                <span className="text-gray-400 font-bold text-[10px] sm:text-xs uppercase tracking-wider">
                                     REPS
                                 </span>
-                                <span className="text-white font-medium">
+                                <span className="text-white font-medium text-right">
                                     {workout.reps}
                                 </span>
                             </div>
                         )}
 
-                        <div className="flex justify-between items-center px-5 py-3.5">
-                            <span className="text-gray-400 font-bold text-xs uppercase tracking-wider">
+                        <div className="flex justify-between items-center px-4 sm:px-5 py-3 sm:py-3.5">
+                            <span className="text-gray-400 font-bold text-[10px] sm:text-xs uppercase tracking-wider">
                                 DURATION
                             </span>
-                            <span className="text-white font-medium">
+                            <span className="text-white font-medium text-right">
                                 {workout?.duration} min
                             </span>
                         </div>
 
-                        <div className="flex justify-between items-center px-5 py-3.5">
-                            <span className="text-gray-400 font-bold text-xs uppercase tracking-wider">
+                        <div className="flex justify-between items-center px-4 sm:px-5 py-3 sm:py-3.5">
+                            <span className="text-gray-400 font-bold text-[10px] sm:text-xs uppercase tracking-wider">
                                 CALORIES
                             </span>
-                            <span className="text-white font-medium">
+                            <span className="text-white font-medium text-right">
                                 {workout?.calories} kcal
                             </span>
                         </div>
 
-                        <div className="flex justify-between items-center px-5 py-3.5">
-                            <span className="text-gray-400 font-bold text-xs uppercase tracking-wider">
+                        <div className="flex justify-between items-center px-4 sm:px-5 py-3 sm:py-3.5">
+                            <span className="text-gray-400 font-bold text-[10px] sm:text-xs uppercase tracking-wider">
                                 RATING
                             </span>
-                            <span className="text-white font-medium">
+                            <span className="text-white font-medium text-right">
                                 {workout?.rating}
                             </span>
                         </div>
@@ -163,16 +163,16 @@ export default function DetailsPage({
                     {workout?.instructions &&
                         workout.instructions.length > 0 && (
                             <div className="space-y-3 pt-2">
-                                <h3 className="text-base font-black text-white uppercase tracking-wider">
+                                <h3 className="text-sm sm:text-base font-black text-white uppercase tracking-wider">
                                     INSTRUCTIONS
                                 </h3>
-                                <ol className="space-y-2 text-sm text-gray-300">
+                                <ol className="space-y-2 text-xs sm:text-sm text-gray-300">
                                     {workout.instructions.map((step, idx) => (
                                         <li
                                             key={idx}
                                             className="flex gap-2.5 leading-relaxed"
                                         >
-                                            <span className="font-semibold text-gray-400">
+                                            <span className="font-semibold text-gray-400 shrink-0">
                                                 {idx + 1}.
                                             </span>
                                             <span>{step}</span>
@@ -183,18 +183,18 @@ export default function DetailsPage({
                         )}
 
                     {/* Action Buttons */}
-                    <div className="flex items-center gap-4 pt-4">
+                    <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 pt-4">
                         <button
                             onClick={() => onaddtoplan(workout)}
                             disabled={isInPlan}
-                            className={`flex items-center justify-center gap-2 font-bold text-xs uppercase tracking-wider px-6 py-3.5 rounded-xl transition-all shadow-lg ${
+                            className={`flex items-center justify-center gap-2 font-bold text-xs uppercase tracking-wider px-5 sm:px-6 py-3.5 rounded-xl transition-all shadow-lg active:scale-95 cursor-pointer ${
                                 isInPlan
                                     ? "bg-gray-800 text-gray-400 cursor-not-allowed"
                                     : "bg-[#ccff00] text-black hover:bg-[#b8e600]"
                             }`}
                         >
                             <svg
-                                className="w-4 h-4"
+                                className="w-4 h-4 shrink-0"
                                 fill="none"
                                 stroke="currentColor"
                                 viewBox="0 0 24 24"
@@ -213,14 +213,14 @@ export default function DetailsPage({
 
                         <button
                             onClick={() => ontogglesave(workout)}
-                            className={`flex items-center justify-center gap-2 font-bold text-xs uppercase tracking-wider px-6 py-3.5 rounded-xl border transition-all ${
+                            className={`flex items-center justify-center gap-2 font-bold text-xs uppercase tracking-wider px-5 sm:px-6 py-3.5 rounded-xl border transition-all active:scale-95 cursor-pointer ${
                                 isSaved
                                     ? "border-[#ccff00] text-[#ccff00] bg-[#ccff00]/10"
                                     : "border-gray-800 text-gray-300 hover:border-gray-600 hover:text-white bg-[#121620]/60"
                             }`}
                         >
                             <svg
-                                className="w-4 h-4"
+                                className="w-4 h-4 shrink-0"
                                 fill={isSaved ? "currentColor" : "none"}
                                 stroke="currentColor"
                                 viewBox="0 0 24 24"
