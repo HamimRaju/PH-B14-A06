@@ -19,13 +19,14 @@ export default function DetailsPage({
     ontogglesave,
     onback,
 }: detailspageprops) {
-    // Static Prerendering-er somoy workout missing thakle build crash rodh korar guard clause
     if (!workout) {
         return null;
     }
 
-    const isInPlan = planitems?.some((item) => item?.id === workout?.id) ?? false;
-    const isSaved = saveditems?.some((item) => item?.id === workout?.id) ?? false;
+    const isInPlan =
+        planitems?.some((item) => item?.id === workout?.id) ?? false;
+    const isSaved =
+        saveditems?.some((item) => item?.id === workout?.id) ?? false;
 
     return (
         <div className="py-4 sm:py-6 max-w-7xl mx-auto px-1 sm:px-0">

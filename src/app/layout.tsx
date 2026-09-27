@@ -5,49 +5,49 @@ import CursorGlow from "@/components/CursorGlow";
 import "./globals.css";
 
 const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+    variable: "--font-geist-sans",
+    subsets: ["latin"],
 });
 
 const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+    variable: "--font-geist-mono",
+    subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
-  title: "FitLog — Workout Library",
-  description: "Train hard, log honest.",
+    title: "FitLog — Workout Library",
+    description: "Train hard, log honest.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
-  return (
-    <html
-      lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
-    >
-      <body className="min-h-full flex flex-col relative">
-        {/* Cursor Glow Spotlight Effect */}
-        <CursorGlow />
+    return (
+        <html
+            lang="en"
+            className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+        >
+            <body className="min-h-full flex flex-col relative">
+                {/* Cursor Glow Spotlight Effect */}
+                <CursorGlow />
 
-        {children}
+                {children}
 
-        {/* Global Toast Notification Container */}
-        <Toaster
-          position="top-right"
-          toastOptions={{
-            duration: 3000,
-            style: {
-              background: '#121620',
-              color: '#ffffff',
-              border: '1px solid rgba(255, 255, 255, 0.1)',
-              borderRadius: '12px',
-              fontSize: '13px',
-              fontWeight: '600',
-              boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.5)',
-            },
-          }}
-        />
-      </body>
-    </html>
-  );
+                {/* Global Toast Notification Container */}
+                <Toaster
+                    position="top-right"
+                    toastOptions={{
+                        duration: 3000,
+                        style: {
+                            background: "#121620",
+                            color: "#ffffff",
+                            border: "1px solid rgba(255, 255, 255, 0.1)",
+                            borderRadius: "12px",
+                            fontSize: "13px",
+                            fontWeight: "600",
+                            boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.5)",
+                        },
+                    }}
+                />
+            </body>
+        </html>
+    );
 }

@@ -14,7 +14,7 @@ export default function Footer() {
                         height={28}
                         className="object-contain"
                         priority
-                    />
+                />
                     <span className="tracking-wider uppercase text-sm font-black text-white">
                         FIT<span className="text-[#ccff00]">LOG</span>
                     </span>

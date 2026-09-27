@@ -14,5 +14,4 @@ export interface workout {
   instructions?: string[];
   completed?: boolean;
 }
-
 export type pagetype = 'home' | 'details' | 'plan';

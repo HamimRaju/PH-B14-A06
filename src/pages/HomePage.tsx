@@ -169,6 +169,7 @@ export default function HomePage({
                             No workouts found.
                         </div>
                     )}
+                    
                 </div>
             </section>
         </div>

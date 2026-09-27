@@ -2,13 +2,11 @@
 
 FitLog is a dark, no-nonsense gym companion app built to help fitness enthusiasts browse exercises, organize daily workout routines, and track their fitness goals with precision.
 
----
 
 ## 📝 Description
 
 FitLog provides a comprehensive library of exercises covering all major muscle groups. Users can easily explore detailed specs for each exercise, add workouts to their daily plan (up to a 5-lift cap), bookmark items for later, and track metrics like total workout duration and calorie burn—all in an intuitive, high-performance interface.
 
----
 
 ## 🛠️ Technologies Used
 
@@ -19,7 +17,6 @@ FitLog provides a comprehensive library of exercises covering all major muscle g
 * **Toast Notifications:** React Hot Toast / Sonner
 * **Deployment:** Vercel
 
----
 
 ## ✨ Key Features
 
@@ -38,12 +35,9 @@ FitLog provides a comprehensive library of exercises covering all major muscle g
 5. **📱 Fully Responsive Dark UI & Custom 404:** 
    Tailored for mobile, tablet, and desktop screens with a sleek dark theme, dynamic loading animations during API fetches, and a dedicated 404 error page.
 
----
 
 ## 🚀 API References
 
 * **All Workouts Data:** `https://api.abcz.workers.dev/api/fitlog`
 * **Single Workout Details:** `https://api.abcz.workers.dev/api/fitlog/:id`
 * **Alternative API:** `https://api.api-store.workers.dev/api/fitlog`
-
----

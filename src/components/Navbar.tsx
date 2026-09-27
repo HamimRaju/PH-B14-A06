@@ -42,8 +42,8 @@ export default function Navbar({
                             currentpage === "home" || currentpage === "details"
                                 ? "bg-[#1e2710] text-[#ccff00]"
                                 : "text-gray-400 hover:text-white"
-                        }`}
-                    >
+                        }`}>
+                            
                         Workouts
                     </button>
 

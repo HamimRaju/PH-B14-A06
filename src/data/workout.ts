@@ -1,4 +1,6 @@
+
 import { workout } from "../types/workout";
+
 
 export const initialworkouts: workout[] = [
     {
