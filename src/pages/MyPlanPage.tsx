@@ -20,101 +20,116 @@ export default function MyPlanPage({
   ongotoworkouts
 }: myplanpageprops) {
   const [activeTab, setActiveTab] = useState<'today' | 'saved'>('today');
-  const [sortBy, setSortBy] = useState<'duration' | 'calories' | 'rating'>('duration');
+ 
+  const [sortBy, setSortBy] = useState<'default' | 'duration' | 'calories' | 'rating'>('default');
 
   const rawList = activeTab === 'today' ? planitems : saveditems;
 
+
+  const parseNumericValue = (value: string | number | undefined): number => {
+    if (typeof value === 'number') return value;
+    if (!value) return 0;
+    const extracted = String(value).replace(/[^0-9.]/g, '');
+    return parseFloat(extracted) || 0;
+  };
+
+  // Sorting logic (Default sequence vs Ascending order)
   const currentList = [...rawList].sort((a, b) => {
     if (sortBy === 'duration') {
-      return Number(b.duration || 0) - Number(a.duration || 0);
+      return parseNumericValue(a.duration) - parseNumericValue(b.duration);
     }
     if (sortBy === 'calories') {
-      return Number(b.calories || 0) - Number(a.calories || 0);
+      return parseNumericValue(a.calories) - parseNumericValue(b.calories);
     }
     if (sortBy === 'rating') {
-      return Number(b.rating || 0) - Number(a.rating || 0);
+      return parseNumericValue(a.rating) - parseNumericValue(b.rating);
     }
-    return 0;
+    return 0; // 'default' sequence e array order preserve hobe
   });
 
-  const totalExercises = planitems.length;
-  const totalMinutes = planitems.reduce((sum, item) => sum + Number(item.duration || 0), 0);
-  const totalCalories = planitems.reduce((sum, item) => sum + Number(item.calories || 0), 0);
+  // Calculate totals for active tab items
+  const activeItems = activeTab === 'today' ? planitems : saveditems;
+  const totalExercises = activeItems.length;
+  const totalMinutes = activeItems.reduce((sum, item) => sum + parseNumericValue(item.duration), 0);
+  const totalCalories = activeItems.reduce((sum, item) => sum + parseNumericValue(item.calories), 0);
 
   return (
-    <div className="py-6 max-w-7xl mx-auto space-y-8">
+    <div className="py-6 max-w-7xl mx-auto space-y-8 animate-fadeIn">
       
+      {/* Header Section */}
       <div className="space-y-1">
-        <h1 className="text-4xl font-black text-white tracking-tight uppercase">
+        <h1 className="text-3xl md:text-4xl font-black text-white tracking-tight uppercase">
           MY PLAN
         </h1>
-        <p className="text-sm text-gray-400">
-          Cap of five lifts for today. Finish them, then load more.
+        <p className="text-xs md:text-sm text-gray-400">
+          Track your workout plan and manage saved exercises.
         </p>
       </div>
 
+      {/* Stats Summary Cards */}
       <div className="bg-[#121620] border border-gray-800/80 rounded-2xl p-6 md:p-8 grid grid-cols-1 md:grid-cols-3 gap-6 divide-y md:divide-y-0 md:divide-x divide-gray-800/80">
-        
         <div className="space-y-1">
-          <span className="text-xs font-semibold text-gray-400">Exercises</span>
-          <p className="text-4xl font-black text-[#ccff00]">
+          <span className="text-xs font-semibold text-gray-400 uppercase tracking-wider">
+            {activeTab === 'today' ? "Today's Exercises" : "Saved Exercises"}
+          </span>
+          <p className="text-3xl md:text-4xl font-black text-[#ccff00]">
             {totalExercises}
           </p>
         </div>
 
         <div className="space-y-1 md:pl-8 pt-4 md:pt-0">
-          <span className="text-xs font-semibold text-gray-400">Minutes</span>
-          <p className="text-4xl font-black text-white">
-            {totalMinutes}
+          <span className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Total Duration</span>
+          <p className="text-3xl md:text-4xl font-black text-white">
+            {totalMinutes} <span className="text-sm font-medium text-gray-400">min</span>
           </p>
         </div>
 
         <div className="space-y-1 md:pl-8 pt-4 md:pt-0">
-          <span className="text-xs font-semibold text-gray-400">Calories</span>
-          <p className="text-4xl font-black text-white">
-            {totalCalories}
+          <span className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Burned Calories</span>
+          <p className="text-3xl md:text-4xl font-black text-white">
+            {totalCalories} <span className="text-sm font-medium text-gray-400">kcal</span>
           </p>
         </div>
-
       </div>
 
+      {/* Navigation Tabs and Sorting Controls */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        
         <div className="flex bg-[#121620] p-1.5 rounded-2xl border border-gray-800/80">
           <button
             onClick={() => setActiveTab('today')}
-            className={`px-5 py-2 rounded-xl text-xs font-bold transition-all ${
+            className={`px-5 py-2.5 rounded-xl text-xs font-bold transition-all uppercase tracking-wider ${
               activeTab === 'today'
-                ? 'bg-[#1e2710] text-[#ccff00]'
+                ? 'bg-[#1e2710] text-[#ccff00] border border-[#ccff00]/30 shadow-md'
                 : 'text-gray-400 hover:text-white'
             }`}
           >
-            Todays Plan
+            Todays Plan ({planitems.length})
           </button>
           
           <button
             onClick={() => setActiveTab('saved')}
-            className={`px-5 py-2 rounded-xl text-xs font-bold transition-all ${
+            className={`px-5 py-2.5 rounded-xl text-xs font-bold transition-all uppercase tracking-wider ${
               activeTab === 'saved'
-                ? 'bg-[#1e2710] text-[#ccff00]'
+                ? 'bg-[#1e2710] text-[#ccff00] border border-[#ccff00]/30 shadow-md'
                 : 'text-gray-400 hover:text-white'
             }`}
           >
-            Saved
+            Saved Workouts ({saveditems.length})
           </button>
         </div>
 
         <div className="flex items-center gap-2">
-          <span className="text-xs font-semibold text-gray-400">Sort By</span>
+          <span className="text-xs font-semibold text-gray-400 uppercase">Sort By:</span>
           <div className="relative">
             <select
               value={sortBy}
-              onChange={(e) => setSortBy(e.target.value as 'duration' | 'calories' | 'rating')}
-              className="bg-[#121620] border border-gray-800/80 text-white text-xs font-medium rounded-xl px-4 py-2 pr-8 appearance-none focus:outline-none cursor-pointer"
+              onChange={(e) => setSortBy(e.target.value as 'default' | 'duration' | 'calories' | 'rating')}
+              className="bg-[#121620] border border-gray-800/80 text-white text-xs font-medium rounded-xl px-4 py-2 pr-8 appearance-none focus:outline-none focus:border-[#ccff00]/50 cursor-pointer"
             >
-              <option value="duration">Duration</option>
-              <option value="calories">Calories</option>
-              <option value="rating">Rating</option>
+              <option value="default">Default Order (Added First)</option>
+              <option value="duration">Duration (Low to High)</option>
+              <option value="calories">Calories (Low to High)</option>
+              <option value="rating">Rating (Low to High)</option>
             </select>
             <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400">
               <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -123,57 +138,61 @@ export default function MyPlanPage({
             </div>
           </div>
         </div>
-
       </div>
 
+      {/* Workout Items List or Empty State */}
       {currentList.length === 0 ? (
-        
-        <div className="border border-dashed border-gray-800 rounded-3xl p-16 md:p-24 text-center space-y-4 bg-[#0d1017]/50">
-          <h2 className="text-2xl font-black text-white uppercase tracking-tight">
-            NOTHING HERE YET
+        <div className="border border-dashed border-gray-800 rounded-3xl p-12 md:p-20 text-center space-y-4 bg-[#0d1017]/50">
+          <div className="w-12 h-12 rounded-full bg-gray-800/50 flex items-center justify-center mx-auto text-gray-400">
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+            </svg>
+          </div>
+          <h2 className="text-xl md:text-2xl font-black text-white uppercase tracking-tight">
+            NO EXERCISES IN {activeTab === 'today' ? "TODAY'S PLAN" : "SAVED LIST"}
           </h2>
           <p className="text-xs text-gray-400 max-w-sm mx-auto">
-            Browse the library and add a lift to get today moving.
+            {activeTab === 'today'
+              ? "Your plan is currently empty. Explore workouts to add exercises for today."
+              : "You haven't saved any workouts yet. Bookmark workouts to quickly access them later."}
           </p>
           <div className="pt-2">
             <button
               onClick={ongotoworkouts}
-              className="bg-[#ccff00] text-black font-bold text-xs uppercase px-6 py-3 rounded-full hover:bg-[#b8e600] transition-all shadow-md"
+              className="bg-[#ccff00] text-black font-bold text-xs uppercase px-6 py-3 rounded-full hover:bg-[#b8e600] transition-all shadow-md active:scale-95"
             >
-              Go to workouts
+              Browse Workouts
             </button>
           </div>
         </div>
-
       ) : (
-
         <div className="space-y-4">
           {currentList.map((item) => (
             <div
               key={item.id}
               className={`bg-[#121620] border rounded-2xl p-4 md:p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 transition-all ${
                 item.completed && activeTab === 'today'
-                  ? 'border-gray-800/60 opacity-60'
-                  : 'border-gray-800/80 hover:border-gray-700/80'
+                  ? 'border-green-500/30 bg-[#121620]/60 opacity-75'
+                  : 'border-gray-800/80 hover:border-gray-700'
               }`}
             >
-              <div className="flex items-center gap-5 flex-1">
+              <div className="flex items-center gap-4 md:gap-5 flex-1 w-full md:w-auto">
                 <img
                   src={item.image}
                   alt={item.title}
-                  className="w-28 h-20 rounded-xl object-cover bg-gray-900 shrink-0"
+                  className="w-24 h-20 md:w-28 md:h-20 rounded-xl object-cover bg-gray-900 shrink-0"
                 />
                 
                 <div className="space-y-1">
-                  <h3 className={`font-black uppercase text-white text-lg tracking-wide ${item.completed && activeTab === 'today' ? 'line-through text-gray-400' : ''}`}>
+                  <h3 className={`font-black uppercase text-white text-base md:text-lg tracking-wide ${item.completed && activeTab === 'today' ? 'line-through text-gray-400' : ''}`}>
                     {item.title}
                   </h3>
                   
                   <p className="text-xs text-gray-400 font-medium">
-                    {item.equipment}
+                    {item.equipment || item.category || 'General Equipment'}
                   </p>
 
-                  <div className="flex items-center gap-4 text-xs font-semibold text-gray-300 pt-1">
+                  <div className="flex flex-wrap items-center gap-3 text-xs font-semibold text-gray-300 pt-1">
                     <span className="flex items-center gap-1.5">
                       <svg className="w-3.5 h-3.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -198,7 +217,8 @@ export default function MyPlanPage({
                 </div>
               </div>
 
-              <div className="flex items-center gap-3 w-full md:w-auto justify-end pt-2 md:pt-0">
+              {/* Card Actions */}
+              <div className="flex items-center gap-3 w-full md:w-auto justify-end border-t md:border-t-0 border-gray-800/60 pt-3 md:pt-0">
                 <button
                   onClick={() => onselectworkout(item)}
                   className="px-4 py-2.5 rounded-xl text-xs font-bold text-gray-300 bg-[#171d2a] border border-gray-700/60 hover:bg-gray-800 transition-all uppercase"
@@ -209,7 +229,7 @@ export default function MyPlanPage({
                 {activeTab === 'today' && (
                   <button
                     onClick={() => ontogglecomplete(item.id)}
-                    className={`flex items-center gap-1.5 px-5 py-2.5 rounded-xl text-xs font-bold uppercase transition-all ${
+                    className={`flex items-center gap-1.5 px-4 md:px-5 py-2.5 rounded-xl text-xs font-bold uppercase transition-all ${
                       item.completed
                         ? 'bg-green-500/20 text-green-400 border border-green-500/40'
                         : 'bg-[#ccff00] text-black hover:bg-[#b8e600]'
@@ -224,7 +244,8 @@ export default function MyPlanPage({
 
                 <button
                   onClick={() => onremovefromplan(item.id, activeTab)}
-                  className="p-2.5 text-gray-400 hover:text-white transition-all rounded-lg"
+                  title="Remove"
+                  className="p-2.5 text-gray-400 hover:text-red-400 hover:bg-red-500/10 transition-all rounded-xl border border-transparent hover:border-red-500/20"
                 >
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
@@ -234,7 +255,6 @@ export default function MyPlanPage({
             </div>
           ))}
         </div>
-
       )}
 
     </div>

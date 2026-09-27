@@ -16,30 +16,52 @@ export default function Home() {
   const [planitems, setPlanitems] = useState<workout[]>([]);
   const [saveditems, setSaveditems] = useState<workout[]>([]);
 
+  // Simple Custom Toast Alert implementation
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
+
+  const showToast = (message: string) => {
+    setToastMessage(message);
+    setTimeout(() => {
+      setToastMessage(null);
+    }, 3000);
+  };
+
   const handleSelectWorkout = (item: workout) => {
     setSelectedworkout(item);
     setCurrentpage('details');
   };
 
   const handleAddToPlan = (item: workout) => {
-    if (!planitems.some(i => i.id === item.id)) {
-      setPlanitems([...planitems, { ...item, completed: false }]);
+    // Check if item is already added to Today's Plan
+    const isAlreadyAdded = planitems.some(i => i.id === item.id);
+    
+    if (isAlreadyAdded) {
+      showToast(`⚠️ "${item.title}" is already added to Today's Plan!`);
+      return;
     }
+
+    setPlanitems([...planitems, { ...item, completed: false }]);
+    showToast(`✅ "${item.title}" added to Today's Plan!`);
   };
 
   const handleToggleSave = (item: workout) => {
-    if (saveditems.some(i => i.id === item.id)) {
+    const isSaved = saveditems.some(i => i.id === item.id);
+    if (isSaved) {
       setSaveditems(saveditems.filter(i => i.id !== item.id));
+      showToast(`🗑️ Removed "${item.title}" from Saved workouts.`);
     } else {
       setSaveditems([...saveditems, item]);
+      showToast(`🔖 Saved "${item.title}" for later!`);
     }
   };
 
   const handleRemoveFromPlan = (id: string, tab: 'today' | 'saved') => {
     if (tab === 'today') {
       setPlanitems(planitems.filter(i => i.id !== id));
+      showToast("Removed exercise from Today's Plan.");
     } else {
       setSaveditems(saveditems.filter(i => i.id !== id));
+      showToast("Removed exercise from Saved workouts.");
     }
   };
 
@@ -50,7 +72,14 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0b0e14] text-gray-100 flex flex-col font-sans antialiased">
+    <div className="min-h-screen bg-[#0b0e14] text-gray-100 flex flex-col font-sans antialiased relative">
+      {/* Dynamic Toast Notification Popup */}
+      {toastMessage && (
+        <div className="fixed top-5 right-5 z-50 bg-[#171d2a] text-white border border-[#ccff00]/40 px-5 py-3 rounded-2xl shadow-2xl transition-all duration-300 animate-bounce text-xs font-semibold flex items-center gap-2">
+          {toastMessage}
+        </div>
+      )}
+
       {/* Navbar with Page navigation & Badge Counts */}
       <Navbar 
         currentpage={currentpage} 
