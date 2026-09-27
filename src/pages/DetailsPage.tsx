@@ -19,6 +19,11 @@ export default function DetailsPage({
     ontogglesave,
     onback,
 }: detailspageprops) {
+    // Static Prerendering-er somoy workout missing thakle build crash rodh korar guard clause
+    if (!workout) {
+        return null;
+    }
+
     const isInPlan = planitems?.some((item) => item?.id === workout?.id) ?? false;
     const isSaved = saveditems?.some((item) => item?.id === workout?.id) ?? false;
 
@@ -50,8 +55,8 @@ export default function DetailsPage({
                 <div className="lg:col-span-6">
                     <div className="w-full h-145 rounded-3xl overflow-hidden bg-[#12161f] border border-gray-800/60 shadow-2xl">
                         <img
-                            src={workout.image}
-                            alt={workout.title}
+                            src={workout?.image}
+                            alt={workout?.title || "Workout"}
                             className="w-full h-full object-cover"
                         />
                     </div>
@@ -62,17 +67,17 @@ export default function DetailsPage({
                     {/* Header & Description */}
                     <div className="space-y-3">
                         <h1 className="text-4xl font-black text-white tracking-tight uppercase leading-none">
-                            {workout.title}
+                            {workout?.title}
                         </h1>
                         <p className="text-gray-400 text-sm leading-relaxed font-normal">
-                            {workout.description ||
+                            {workout?.description ||
                                 "A compound exercise designed to build upper body strength and muscle."}
                         </p>
                     </div>
 
                     {/* Category Badges */}
                     <div className="flex gap-2.5 flex-wrap">
-                        {workout.category?.map((cat, i) => (
+                        {workout?.category?.map((cat, i) => (
                             <span
                                 key={i}
                                 className="bg-[#ccff00] text-black text-xs font-black px-4 py-1.5 rounded-full uppercase tracking-wider"
@@ -89,11 +94,11 @@ export default function DetailsPage({
                                 EQUIPMENT
                             </span>
                             <span className="text-white font-medium">
-                                {workout.equipment}
+                                {workout?.equipment}
                             </span>
                         </div>
 
-                        {workout.difficulty && (
+                        {workout?.difficulty && (
                             <div className="flex justify-between items-center px-5 py-3.5">
                                 <span className="text-gray-400 font-bold text-xs uppercase tracking-wider">
                                     DIFFICULTY
@@ -104,7 +109,7 @@ export default function DetailsPage({
                             </div>
                         )}
 
-                        {workout.sets && (
+                        {workout?.sets && (
                             <div className="flex justify-between items-center px-5 py-3.5">
                                 <span className="text-gray-400 font-bold text-xs uppercase tracking-wider">
                                     SETS
@@ -115,7 +120,7 @@ export default function DetailsPage({
                             </div>
                         )}
 
-                        {workout.reps && (
+                        {workout?.reps && (
                             <div className="flex justify-between items-center px-5 py-3.5">
                                 <span className="text-gray-400 font-bold text-xs uppercase tracking-wider">
                                     REPS
@@ -131,7 +136,7 @@ export default function DetailsPage({
                                 DURATION
                             </span>
                             <span className="text-white font-medium">
-                                {workout.duration} min
+                                {workout?.duration} min
                             </span>
                         </div>
 
@@ -140,7 +145,7 @@ export default function DetailsPage({
                                 CALORIES
                             </span>
                             <span className="text-white font-medium">
-                                {workout.calories} kcal
+                                {workout?.calories} kcal
                             </span>
                         </div>
 
@@ -149,13 +154,13 @@ export default function DetailsPage({
                                 RATING
                             </span>
                             <span className="text-white font-medium">
-                                {workout.rating}
+                                {workout?.rating}
                             </span>
                         </div>
                     </div>
 
                     {/* Instructions List */}
-                    {workout.instructions &&
+                    {workout?.instructions &&
                         workout.instructions.length > 0 && (
                             <div className="space-y-3 pt-2">
                                 <h3 className="text-base font-black text-white uppercase tracking-wider">
