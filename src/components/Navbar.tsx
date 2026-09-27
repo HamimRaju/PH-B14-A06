@@ -38,7 +38,7 @@ export default function Navbar({
                 <nav className="flex items-center bg-[#161a23] p-1.5 rounded-full border border-gray-800/80">
                     <button
                         onClick={() => onnavigate("home")}
-                        className={`px-6 py-2 rounded-full text-sm font-semibold transition-all ${
+                        className={`px-6 py-2 rounded-full text-sm font-semibold transition-all cursor-pointer ${
                             currentpage === "home" || currentpage === "details"
                                 ? "bg-[#1e2710] text-[#ccff00]"
                                 : "text-gray-400 hover:text-white"
@@ -49,7 +49,7 @@ export default function Navbar({
 
                     <button
                         onClick={() => onnavigate("plan")}
-                        className={`px-6 py-2 rounded-full text-sm font-semibold transition-all ${
+                        className={`px-6 py-2 rounded-full text-sm font-semibold transition-all cursor-pointer ${
                             currentpage === "plan"
                                 ? "bg-[#1e2710] text-[#ccff00]"
                                 : "text-gray-400 hover:text-white"

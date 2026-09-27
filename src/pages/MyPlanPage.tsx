@@ -159,7 +159,7 @@ export default function MyPlanPage({
           <div className="pt-2">
             <button
               onClick={ongotoworkouts}
-              className="bg-[#ccff00] text-black font-bold text-xs uppercase px-6 py-3 rounded-full hover:bg-[#b8e600] transition-all shadow-md active:scale-95"
+              className="bg-[#ccff00] text-black font-bold text-xs uppercase px-6 py-3 rounded-full hover:bg-[#b8e600] transition-all shadow-md active:scale-95 "
             >
               Browse Workouts
             </button>
