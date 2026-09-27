@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import toast from 'react-hot-toast';
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import HomePage from "../pages/HomePage";
@@ -16,16 +17,6 @@ export default function Home() {
   const [planitems, setPlanitems] = useState<workout[]>([]);
   const [saveditems, setSaveditems] = useState<workout[]>([]);
 
-  // Simple Custom Toast Alert implementation
-  const [toastMessage, setToastMessage] = useState<string | null>(null);
-
-  const showToast = (message: string) => {
-    setToastMessage(message);
-    setTimeout(() => {
-      setToastMessage(null);
-    }, 3000);
-  };
-
   const handleSelectWorkout = (item: workout) => {
     setSelectedworkout(item);
     setCurrentpage('details');
@@ -36,50 +27,98 @@ export default function Home() {
     const isAlreadyAdded = planitems.some(i => i.id === item.id);
     
     if (isAlreadyAdded) {
-      showToast(`⚠️ "${item.title}" is already added to Today's Plan!`);
+      toast(`${item.title} is already in Today's Plan!`, {
+        icon: '⚠️',
+        style: {
+          border: '1px solid rgba(234, 179, 8, 0.4)',
+        },
+      });
       return;
     }
 
     setPlanitems([...planitems, { ...item, completed: false }]);
-    showToast(`✅ "${item.title}" added to Today's Plan!`);
+    
+    toast.success(`${item.title} added to Today's Plan!`, {
+      iconTheme: {
+        primary: '#ccff00',
+        secondary: '#000000',
+      },
+      style: {
+        border: '1px solid rgba(204, 255, 0, 0.4)',
+      },
+    });
   };
 
   const handleToggleSave = (item: workout) => {
     const isSaved = saveditems.some(i => i.id === item.id);
     if (isSaved) {
       setSaveditems(saveditems.filter(i => i.id !== item.id));
-      showToast(`🗑️ Removed "${item.title}" from Saved workouts.`);
+      toast('Removed from Saved Workouts', {
+        icon: '🗑️',
+        style: {
+          border: '1px solid rgba(239, 68, 68, 0.3)',
+        },
+      });
     } else {
       setSaveditems([...saveditems, item]);
-      showToast(`🔖 Saved "${item.title}" for later!`);
+      toast.success(`${item.title} saved for later!`, {
+        iconTheme: {
+          primary: '#ccff00',
+          secondary: '#000000',
+        },
+        style: {
+          border: '1px solid rgba(204, 255, 0, 0.4)',
+        },
+      });
     }
   };
 
   const handleRemoveFromPlan = (id: string, tab: 'today' | 'saved') => {
     if (tab === 'today') {
       setPlanitems(planitems.filter(i => i.id !== id));
-      showToast("Removed exercise from Today's Plan.");
+      toast.error("Removed exercise from Today's Plan.", {
+        iconTheme: {
+          primary: '#ef4444',
+          secondary: '#ffffff',
+        },
+        style: {
+          border: '1px solid rgba(239, 68, 68, 0.3)',
+        },
+      });
     } else {
       setSaveditems(saveditems.filter(i => i.id !== id));
-      showToast("Removed exercise from Saved workouts.");
+      toast.error("Removed exercise from Saved workouts.", {
+        iconTheme: {
+          primary: '#ef4444',
+          secondary: '#ffffff',
+        },
+        style: {
+          border: '1px solid rgba(239, 68, 68, 0.3)',
+        },
+      });
     }
   };
 
   const handleToggleComplete = (id: string) => {
-    setPlanitems(planitems.map(item => 
-      item.id === id ? { ...item, completed: !item.completed } : item
-    ));
+    setPlanitems(planitems.map(item => {
+      if (item.id === id) {
+        const nextState = !item.completed;
+        if (nextState) {
+          toast.success("Workout marked as completed!", {
+            iconTheme: {
+              primary: '#22c55e',
+              secondary: '#ffffff',
+            },
+          });
+        }
+        return { ...item, completed: nextState };
+      }
+      return item;
+    }));
   };
 
   return (
     <div className="min-h-screen bg-[#0b0e14] text-gray-100 flex flex-col font-sans antialiased relative">
-      {/* Dynamic Toast Notification Popup */}
-      {toastMessage && (
-        <div className="fixed top-5 right-5 z-50 bg-[#171d2a] text-white border border-[#ccff00]/40 px-5 py-3 rounded-2xl shadow-2xl transition-all duration-300 animate-bounce text-xs font-semibold flex items-center gap-2">
-          {toastMessage}
-        </div>
-      )}
-
       {/* Navbar with Page navigation & Badge Counts */}
       <Navbar 
         currentpage={currentpage} 
