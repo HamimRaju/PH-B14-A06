@@ -51,8 +51,13 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-[#0b0e14] text-gray-100 flex flex-col font-sans antialiased">
-      {/* Navbar component with correct currentpage prop */}
-      <Navbar currentpage={currentpage} onnavigate={setCurrentpage} />
+      {/* Navbar with Page navigation & Badge Counts */}
+      <Navbar 
+        currentpage={currentpage} 
+        onnavigate={setCurrentpage} 
+        planCount={planitems.length}
+        savedCount={saveditems.length}
+      />
 
       <main className="grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {currentpage === 'home' && (
